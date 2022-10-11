@@ -67,3 +67,24 @@ func (s *LockSet[K]) String() string {
 	str += "]"
 	return str
 }
+
+type LinkSet[K comparable] struct {
+	m LinkedMap[K, bool]
+}
+
+func (l *LinkSet[K]) Exist(k K) bool {
+	if _, ok := l.m.Get(k); ok {
+		return true
+	}
+	return false
+}
+
+func (l *LinkSet[K]) Put(k K) {
+	l.m.Put(k, true)
+}
+
+func (l *LinkSet[K]) Range(f func(k K)) {
+	l.m.Range(func(k K, _ bool) {
+		f(k)
+	})
+}

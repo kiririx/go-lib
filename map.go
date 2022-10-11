@@ -38,8 +38,12 @@ type elem[K comparable, V any] struct {
 	next K
 }
 
-func (l *LinkedMap[K, V]) Get(k K) V {
-	return l.m[k].v
+func (l *LinkedMap[K, V]) Get(k K) (V, bool) {
+	if vv, ok := l.m[k]; ok {
+		return vv.v, ok
+	}
+	var v V
+	return v, false
 }
 
 func (l *LinkedMap[K, V]) Put(k K, v V) {
