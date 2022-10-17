@@ -36,3 +36,13 @@ func TestMap(t *testing.T) {
 		t.Log(k, v)
 	}
 }
+
+func TestSyncMap(t *testing.T) {
+	sm := SyncMap[string, int]{}
+	sm.Store("abc", 2)
+	t.Log(sm.Load("abc"))
+	sm.Range(func(k string, v int) bool {
+		t.Log(k, v)
+		return true
+	})
+}

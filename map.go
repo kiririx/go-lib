@@ -76,3 +76,22 @@ func (l *LinkedMap[K, V]) gGet(val elem[K, V], f func(k K, v V)) {
 		l.gGet(l.m[val.next], f)
 	}
 }
+
+type SyncMap[K comparable, V any] struct {
+	m sync.Map
+}
+
+func (s *SyncMap[K, V]) Load(key K) (V, bool) {
+	v, ok := s.m.Load(key)
+	return v.(V), ok
+}
+
+func (s *SyncMap[K, V]) Store(k K, v V) {
+	s.m.Store(k, v)
+}
+
+func (s *SyncMap[K, V]) Range(f func(k K, v V) bool) {
+	s.m.Range(func(key, value any) bool {
+		return f(key.(K), value.(V))
+	})
+}
